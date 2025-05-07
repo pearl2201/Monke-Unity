@@ -1,0 +1,64 @@
+/Temp
+/DownloadedData
+/Library
+/.vs
+/*.sln
+/*.csproj
+/*.csproj.meta
+/obj
+/*.userprefs
+/remote_config_data
+.idea/
+.DS_Store
+
+/Build/
+
+/*.DotSettings.user
+/Unity_lic.alf
+/UserSettings
+/Logs/AssetImportWorker0.log
+/Logs/AssetImportWorker0-prev.log
+Assets/Making sample - git ignore/
+Build_Android/
+Builds/Client/UnityCrashHandler64.exe
+Builds/Server/King's Party_Data/level5
+Build.rar
+Builds/
+Builds_Remote/
+Assets/0_SandBox/
+Assets/HeadlessBuilder/
+Headless Build/
+Headless Build second/
+headless_builder_backup/
+ExportProject/
+Assets/Plugins/CodeStage/Maintainer.meta
+Assets/Plugins/CodeStage/
+Logs/
+Assets/3rd Library/Smart-Hierarchy-0.3.1-pre.10/
+Assets/3rd Library/Smart-Inspector-0.8.0-pre.2/
+Assets/3rd Library/Smart-Hierarchy-0.3.1-pre.10.meta
+Assets/3rd Library/Smart-Inspector-0.8.0-pre.2.meta
+Assets/BuildReport/
+Assets/BuildReport.meta
+ProjectSettings/BuildReportToolOptions.xml
+ServerData/
+Assets/Samples/
+Assets/GeneratedLocalRepo/
+[Aa]ssets/StreamingAssets
+[Aa]ssetBundles
+
+# Ignore unnecessary addressable build artifacts
+/Assets/AddressableAssetsData/*
+!/Assets/AddressableAssetsData/AssetGroups/
+!/Assets/AddressableAssetsData/AssetGroups.meta
+!/Assets/AddressableAssetsData/AssetGroupTemplates/
+!/Assets/AddressableAssetsData/AssetGroupTemplates.meta
+!/Assets/AddressableAssetsData/DataBuilders/
+!/Assets/AddressableAssetsData/DataBuilders.meta
+!/Assets/AddressableAssetsData/*.asset
+!/Assets/AddressableAssetsData/*.asset.meta
+*.apk
+Assets/Plugins/Android/mainTemplate.gradle.backup11
+Assets/Plugins/Android/mainTemplate.gradle.backup11.meta
+Assets/Plugins/Sirenix/Odin Inspector/Config/Editor/AOTGenerationConfig.asset
+ProjectSettings/GvhProjectSettings.xml
