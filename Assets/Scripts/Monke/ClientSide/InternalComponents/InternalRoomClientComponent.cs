@@ -7,7 +7,7 @@ namespace MonkeNet.Client
 {
     public abstract partial class InternalRoomClientComponent : MonoBehaviour
     {
-        protected virtual void OnRoomCommandReceived(INetSerializable command) { }
+        protected virtual void OnRoomCommandReceived(object sender, INetSerializable command) { }
         protected virtual void OnServerLatencyCalculated(int latencyAverageTicks, int jitterAverageTicks) { }
         protected virtual void OnRoomProcessTick(int currentTick, int currentRemoteTick) { }
 
@@ -24,9 +24,8 @@ namespace MonkeNet.Client
 
         public virtual void Start()
         {
-            ClientManager.Instance.onClientTick += OnRoomProcessTick;
-            ClientManager.Instance.onNetworkReady += OnNetworkReady;
-            ClientManager.Instance.CommandReceived += OnRoomCommandReceived;
+            _room.onClientTick += OnRoomProcessTick;
+            _room.onCommandReceived += OnRoomCommandReceived;
             ClientManager.Instance.onLatencyCalculated += OnServerLatencyCalculated;
         }
 

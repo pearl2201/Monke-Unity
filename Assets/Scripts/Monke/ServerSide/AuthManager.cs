@@ -36,13 +36,13 @@ namespace MonkeNet.Server
                 //        Username = $"User_{loginRequestData.DeviceId.Substring(0, 5)}"
                 //    };
                 //}
-                //client.SetUser(user);
-                //onUserSignIn?.Invoke(client);
-                //ServerManager.Instance.SendCommandToClient(client, new LoginInfoData()
-                //{
-                //    Id = (ushort)client.SessionId,
-                //    Data = new LobbyInfoData(RoomManager.Instance.GetRoomDataList())
-                //});
+                //args.clientId.SetUser(user);
+                onUserSignIn?.Invoke(args.clientId);
+                ServerManager.Instance.SendCommandToClient(args.clientId, new LoginInfoData()
+                {
+                    Id = (ushort)args.clientId.SessionId,
+                    Data = new LobbyInfoData(RoomManager.Instance.GetRoomDataList())
+                });
             }
         }
 

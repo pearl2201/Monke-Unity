@@ -1,6 +1,4 @@
-﻿
-using LiteNetLib.Utils;
-using MonkeNet.NetworkMessages;
+﻿using MonkeNet.NetworkMessages;
 using MonkeNet.Shared;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,18 +11,25 @@ namespace MonkeNet.Server
     /// </summary>
     public class RoomEntityManager : InternalServerComponent
     {
-        public ServerRoom _room;
-        EntitySpawner _entitySpawner;
+        [SerializeField] public ServerRoom _room;
+        [SerializeField] public GameEntityManager _entitySpawner;
         private int _entityIdCount = 0;
+        [SerializeField] GameEntityManager _entityManagerPrefab;
+
 
         private void Awake()
         {
             _room = GetComponent<ServerRoom>();
             _room.onClientConnected += OnRoomClientConnected;
             _room.onClientDisconnected += OnRoomClientDisconnected;
-            _entitySpawner = EntitySpawner.Instance;
+
         }
 
+        private void Start()
+        {
+            var temp = Instantiate(_entityManagerPrefab, _room.transform);
+            _entitySpawner = temp.GetComponent<GameEntityManager>();
+        }
         private void OnDestroy()
         {
             _room.onClientConnected -= OnRoomClientConnected;
@@ -73,7 +78,7 @@ namespace MonkeNet.Server
         {
             // Solve which entities we should include in this snapshot
             List<IServerEntity> includedEntities = new List<IServerEntity>();
-            foreach (INetworkedEntity entity in _entitySpawner.GetAllEntitiesByRoom(_room.id))
+            foreach (INetworkedEntity entity in _entitySpawner.GetAllEntitiesByRoom())
             {
                 if (entity is IServerEntity serverEntity)
                 {
@@ -149,7 +154,7 @@ namespace MonkeNet.Server
         /// <param name="clientId"></param>
         private void SyncWorldState(MonkeNetPeer clientId)
         {
-            foreach (INetworkedEntity entity in _entitySpawner.GetAllEntitiesByRoom(_room.id))
+            foreach (INetworkedEntity entity in _entitySpawner.GetAllEntitiesByRoom())
             {
                 var entityEvent = new EntityEventMessage
                 {

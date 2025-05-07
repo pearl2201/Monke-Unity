@@ -13,14 +13,15 @@ namespace MonkeNet.Client
     /// Reads and transmits inputs to the server. Will adjust and send redundant inputs to compensate for bad network conditions.
     /// </summary>
 
-    public partial class ClientInputManager : InternalClientComponent
+    public partial class ClientInputManager : InternalRoomClientComponent
     {
+        public InputProducerComponent inputProducerComponent;
         private readonly List<ProducedInput> _producedInputs = new List<ProducedInput>();
         private int _lastReceivedTick = 0;
 
         public INetSerializable GenerateAndTransmitInputs(int currentTick)
         {
-            INetSerializable input = MonkeNetConfig.Instance.InputProducer?.GenerateCurrentInput();
+            INetSerializable input = inputProducerComponent?.GenerateCurrentInput();
 
             if (input == null)
             {
@@ -56,7 +57,7 @@ namespace MonkeNet.Client
         }
 
         // When we receive a snapshot back, we delete all inputs prior/equal to it since those were already processed.
-        protected override void OnCommandReceived(Area area, int areaId, INetSerializable command)
+        protected override void OnRoomCommandReceived(object sender, INetSerializable command)
         {
             if (command is GameSnapshotMessage snapshot && snapshot.Tick > _lastReceivedTick)
             {

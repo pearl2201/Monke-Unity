@@ -39,7 +39,7 @@ namespace MonkeNet.Client
             _currentTick = currentTick;
         }
 
-        protected override void OnRoomCommandReceived(Area area, int areaId, INetSerializable command)
+        protected override void OnRoomCommandReceived(object sender, INetSerializable command)
         {
             if (command is GameSnapshotMessage snapshot)
             {

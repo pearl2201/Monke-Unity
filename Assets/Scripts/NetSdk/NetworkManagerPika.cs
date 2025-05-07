@@ -7,7 +7,7 @@ using System.Reflection;
 using UnityEngine;
 using Utils;
 
-public class NetworkManagerPika : MonoSingleton<NetworkManagerPika>, INetworkManager
+public class NetworkManagerPika : MonoBehaviour, INetworkManager
 {
     public enum AudienceMode : int
     {

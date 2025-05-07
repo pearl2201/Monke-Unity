@@ -46,23 +46,28 @@ public class PikaServer : MonoBehaviour, IMultiplayer
 
     public void OnWebsocketOpen(PikaServerPeer behavior)
     {
-        uint id = _idGenerator.GetNewId();
-        peers[id] = behavior;
-        behavior.Id = id;
-        foreach (var item in onConnectedListener)
-        {
-            item(behavior);
-        }
+      
+            uint id = _idGenerator.GetNewId();
+            peers[id] = behavior;
+            behavior.Id = id;
+            foreach (var item in onConnectedListener)
+            {
+                item(behavior);
+            }
+        
+
     }
 
     public void OnWebsocketClose(PikaServerPeer behavior)
     {
-        foreach (var item in onDisconnectedListener)
-        {
-            item(behavior);
-        }
-        peers.Remove(behavior.Id);
-        _idGenerator.ReuseId(behavior.Id);
+      
+            foreach (var item in onDisconnectedListener)
+            {
+                item(behavior);
+            }
+            peers.Remove(behavior.Id);
+            _idGenerator.ReuseId(behavior.Id);
+
     }
 
     public void OnWebsocketError(PikaServerPeer behaviour, Exception ex)
@@ -73,7 +78,8 @@ public class PikaServer : MonoBehaviour, IMultiplayer
     {
         Debug.Log("[*] Server receive: " + data.Length);
 
-        NetHelper.ParseMessage(behaviour, data, OnPingMessage, OnPongMessage, (bin) =>
+        
+            NetHelper.ParseMessage(behaviour, data, OnPingMessage, OnPongMessage, (bin) =>
         {
             foreach (var listener in onMessagesListener)
             {

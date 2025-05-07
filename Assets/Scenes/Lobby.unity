@@ -171,6 +171,7 @@ MonoBehaviour:
   roomListPrefab: {fileID: 7544612562185830164, guid: 48421d8c6950f734393cfb7c6ec64cdb, type: 3}
   autoRefreshLobbyTime: 1
   refreshLobby: 0
+  roomPrefab: {fileID: 5700612494010326923, guid: f8fca6627fc8a9348ad82c8da00d1306, type: 3}
 --- !u!1 &87530393
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0002680463}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &124632957
@@ -762,7 +763,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 246486224}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.999753
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

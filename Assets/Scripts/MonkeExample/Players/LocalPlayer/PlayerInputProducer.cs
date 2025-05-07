@@ -19,7 +19,7 @@ namespace MonkeExample
             return new CharacterInputMessage
             {
                 Velocity = GetCurrentPressedKeys(),
-                CameraYaw = _cameraController.GetLateralRotationAngle()
+                CameraYaw = _cameraController == null ? 0 : _cameraController.GetLateralRotationAngle()
             };
         }
 

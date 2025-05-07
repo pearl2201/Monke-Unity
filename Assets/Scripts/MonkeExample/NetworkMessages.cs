@@ -73,20 +73,26 @@ public static class NetDataExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void PutSingleTypeArray<T>(this NetDataWriter writer, T[] e) where T : INetSerializable
     {
-        writer.Put(e.Length);
-        if (e.Length > 0)
+        if (e == null)
         {
-            writer.Put(e[0].GetType().Name);
+            writer.Put(0);
         }
         else
         {
-            writer.Put(typeof(T).Name);
-        }
 
-        foreach (var elem in e)
-        {
+            writer.Put(e.Length);
+            string typeName = typeof(T).FullName;
+            if (e.Length > 0)
+            {
+                typeName = e[0].GetType().FullName;
+            }
+            writer.Put(typeName);
 
-            elem.Serialize(writer);
+            foreach (var elem in e)
+            {
+
+                elem.Serialize(writer);
+            }
         }
     }
 
@@ -96,12 +102,18 @@ public static class NetDataExtensions
     {
 
         var n = writer.GetInt();
-        var t = CacheTypeNames.GetType(writer.GetString());
+        if (n == 0)
+        {
+            return new T[0];
+        }
+        string typeName = writer.GetString();
+        var t = CacheTypeNames.GetType(typeName);
         var arr = new T[n];
         for (int i = 0; i < n; i++)
         {
 
-            var temp = (T)Activator.CreateInstance(t);
+            var tt = Activator.CreateInstance(t);
+            var temp = (T)tt;
             temp.Deserialize(writer);
             arr[i] = temp;
 

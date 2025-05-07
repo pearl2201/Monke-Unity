@@ -28,8 +28,9 @@ namespace MonkeNet.Server
             CreateRoom(0, "Main", 25);
             CreateRoom(1, "Main 2", 15);
         }
-        private void OnEnable()
+        public override void Start()
         {
+            base.Start();
             ServerManager.Instance.onCommandReceived += CommandReceived;
         }
 
@@ -41,7 +42,7 @@ namespace MonkeNet.Server
             }
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             ServerManager.Instance.onCommandReceived -= CommandReceived;
         }

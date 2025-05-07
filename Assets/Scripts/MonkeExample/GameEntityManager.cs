@@ -27,7 +27,7 @@ public class GameEntityManager : EntitySpawner
             GameObject playerScene = @event.Authority == ClientManager.Instance.GetNetworkId() ?
                  localPlayerPrefab.gameObject :
                 dummyPlayerPrefab.gameObject;
-            var obj = Instantiate(playerScene).transform;
+            var obj = GameObject.Instantiate(playerScene).transform;
             obj.position = @event.Position;
             return obj; // Spawn player scene
         }

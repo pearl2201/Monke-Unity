@@ -11,7 +11,13 @@ namespace MonkeNet.Client
     public partial class ClientEntityManager : InternalRoomClientComponent
     {
         [SerializeField] EntitySpawner _entitySpawner;
+        [SerializeField] GameEntityManager _entityManagerPrefab;
 
+        private void Awake()
+        {
+            var temp = Instantiate(_entityManagerPrefab, Room.transform);
+            _entitySpawner = temp.GetComponent<GameEntityManager>();
+        }
         public EntitySpawner EntitySpawner { get { return _entitySpawner; } }
         public void OnEnable()
         {
@@ -32,7 +38,7 @@ namespace MonkeNet.Client
             SendCommandToRoom(CacheRuntime.Instance.CurrentRoomId, req);
         }
 
-        protected override void OnRoomCommandReceived(INetSerializable command)
+        protected override void OnRoomCommandReceived(object sender, INetSerializable command)
         {
             if (command is EntityEventMessage entityEvent)
             {

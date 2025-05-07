@@ -27,10 +27,6 @@ namespace MonkeNet
         /// </summary>
         [SerializeField] public UnityEngine.SceneManagement.Scene CustomClientScene;
 
-        /// <summary>
-        /// Local input producer when running on the client.
-        /// </summary>
-        [SerializeField] public InputProducerComponent InputProducer;
 
         [Header("Server")]
         /// <summary>

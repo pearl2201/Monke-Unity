@@ -12,7 +12,8 @@ namespace MonkeNet.Shared
         public bool IsServer { get; private set; } = false;
         // public Rid PhysicsSpace { get; private set; }
         public string protocol;
-        [SerializeField] NetworkManagerPika _networkManager;
+        [SerializeField] NetworkManagerPika _clientNetworkManager;
+        [SerializeField] NetworkManagerPika _serverNetworkManager;
         [SerializeField] ClientManager _clientManager;
         [SerializeField] ServerManager _serverManager;
 
@@ -32,7 +33,7 @@ namespace MonkeNet.Shared
 
 
             // TODO: pass configurations as struct/.ini
-            _clientManager.Initialize(_networkManager, protocol, address, port);
+            _clientManager.Initialize(_clientNetworkManager, protocol, address, port);
         }
 
         public void CreateServer(int port)
@@ -43,7 +44,7 @@ namespace MonkeNet.Shared
 
 
             // TODO: pass configurations as struct/.ini
-            _serverManager.Initialize(_networkManager, port);
+            _serverManager.Initialize(_serverNetworkManager, port);
         }
     }
 }

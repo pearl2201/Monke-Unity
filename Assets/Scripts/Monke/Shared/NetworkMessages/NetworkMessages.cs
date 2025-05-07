@@ -303,7 +303,7 @@ namespace MonkeNet.NetworkMessages
 
         public LobbyInfoData()
         {
-
+            Rooms = new RoomData[0];
         }
 
         public void Deserialize(NetDataReader reader)
@@ -313,11 +313,11 @@ namespace MonkeNet.NetworkMessages
 
         public void Serialize(NetDataWriter writer)
         {
-            writer.PutSingleTypeArray(Rooms);
+            writer.PutSingleTypeArray<RoomData>(Rooms);
         }
     }
     [NetPacket]
-    public struct RoomData : INetSerializable
+    public class RoomData : INetSerializable
     {
         public string Name;
         public byte Slots;
@@ -330,6 +330,10 @@ namespace MonkeNet.NetworkMessages
             MaxSlots = maxSlots;
         }
 
+        public RoomData()
+        {
+
+        }
         public void Deserialize(NetDataReader reader)
         {
             Name = reader.GetString();
@@ -445,17 +449,16 @@ public static class CacheTypeNames
 
     private static Type ByName(string name)
     {
-        return
-            AppDomain.CurrentDomain.GetAssemblies()
+        var temp = AppDomain.CurrentDomain.GetAssemblies()
                 .Reverse()
-                .Select(assembly => assembly.GetType(name))
-                .FirstOrDefault(t => t != null)
+                .Select(assembly => assembly.GetType(name));
+        return
+
+                temp.FirstOrDefault(t => t != null)
             // Safely delete the following part
             // if you do not want fall back to first partial result
             ??
-            AppDomain.CurrentDomain.GetAssemblies()
-                .Reverse()
-                .SelectMany(assembly => assembly.GetTypes())
+            temp
                 .FirstOrDefault(t => t.Name.Contains(name));
     }
 }

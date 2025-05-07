@@ -88,7 +88,7 @@ public class ServerRoom : MonoBehaviour
     public void RoomUpdate(int currentTick)
     {
         physicsScene.Simulate(Time.fixedDeltaTime);
-        _cooldownDispatch += currentTick;
+        _cooldownDispatch += 1;
         if (_cooldownDispatch >= dispatchRate)
         {
             _cooldownDispatch = 0;
@@ -106,23 +106,19 @@ public class ServerRoom : MonoBehaviour
         }
         _currentTick += 1;
 
-        onRoomTick.Invoke(this, _currentTick);
+        onRoomTick?.Invoke(this, _currentTick);
         EntitiesCallProcessTick(_currentTick);
 
         _inputReceiver.DropOutdatedInputs(_currentTick); // Delete all inputs that we don't need anymore
 
         // JoltPhysicsServer3D.GetSingleton().SpaceStep(MonkeNetManager.Instance.PhysicsSpace, PhysicsUtils.DeltaTime);
         // JoltPhysicsServer3D.GetSingleton().SpaceFlushQueries(MonkeNetManager.Instance.PhysicsSpace);
-        var rooms = RoomManager.Instance.rooms.ToArray();
-        foreach (var room in rooms)
-        {
-            room.Value.RoomUpdate(_currentTick);
-        }
+        RoomUpdate(_currentTick);
     }
 
     private void EntitiesCallProcessTick(int currentTick)
     {
-        foreach (var node in MonkeNetConfig.Instance.EntitySpawner.Entities)
+        foreach (var node in _entityManager._entitySpawner.Entities)
         {
             if (node is IServerEntity serverEntity)
             {
@@ -146,6 +142,7 @@ public class ServerRoom : MonoBehaviour
         scene = SceneManager.CreateScene("Room_" + name, csp);
         physicsScene = scene.GetPhysicsScene();
         SceneManager.MoveGameObjectToScene(gameObject, scene);
+        _entityManager._room = this;
         _initialized = true;
     }
 

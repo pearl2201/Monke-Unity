@@ -1,6 +1,7 @@
 ﻿using LiteNetLib.Utils;
 using MonkeExample;
 using MonkeNet.NetworkMessages;
+using System;
 using UnityEngine;
 
 namespace MonkeNet.Client
@@ -9,14 +10,13 @@ namespace MonkeNet.Client
     {
         public int id;
 
-        public ClientEntityManager entityManager;
+        public ClientEntityManager entityManager => _entityManager;
 
         public delegate void RoomTickEventHandler(int currentTick, int currentRemoteTick);
 
         public event RoomTickEventHandler onClientTick;
 
-        public delegate void CommandReceivedEventHandler(Area area, int areaId, INetSerializable command); // Using a C# signal here because the Godot signal wouldn't accept NetworkMessages.INetSerializable
-        public event CommandReceivedEventHandler CommandReceived;
+        public EventHandler<INetSerializable> onCommandReceived;
 
         [SerializeField] bool _debugNetworking;
         [SerializeField] SnapshotInterpolator _snapshotInterpolator;
@@ -35,16 +35,18 @@ namespace MonkeNet.Client
         public void Start()
         {
             physicsScene = gameObject.scene.GetPhysicsScene();
-
-
-            CommandReceived += OnCommandReceived;
+            ClientManager.Instance.CommandReceived += OnCommandReceived;
         }
 
+        private void OnDestroy()
+        {
+            ClientManager.Instance.CommandReceived -= OnCommandReceived;
+        }
         private void OnCommandReceived(Area area, int areaId, INetSerializable command)
         {
             if (area == Area.Room && areaId == id)
             {
-
+                onCommandReceived?.Invoke(this, command);
             }
         }
 

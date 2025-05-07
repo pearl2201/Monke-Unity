@@ -12,7 +12,6 @@ namespace MonkeNet.Server
 
         protected virtual void OnRoomCommandReceived(object sender, CommandReceivedArgs commandReceivedArgs) { }
         protected virtual void OnRoomProcessTick(object sender, int currentTick) { }
-        protected virtual void OnRoomNetworkProcessTick(object sender, int currentTick) { }
         protected virtual void OnClientConnected(object sender, MonkeNetPeer peerId) { }
         protected virtual void OnClientDisconnected(object sender, MonkeNetPeer peerId) { }
 
@@ -20,7 +19,6 @@ namespace MonkeNet.Server
         {
             _room = room;
             room.onRoomTick += OnRoomProcessTick;
-            room.onRoomNetworkTick += OnRoomNetworkProcessTick;
             room.onCommandReceived += OnRoomCommandReceived;
             room.onClientConnected += OnClientConnected;
             room.onClientDisconnected += OnClientDisconnected;

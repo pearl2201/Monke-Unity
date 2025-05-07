@@ -1,4 +1,5 @@
-﻿using MonkeNet.NetworkMessages;
+﻿using MonkeNet.Client;
+using MonkeNet.NetworkMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace MonkeExample
         public int PlayerId { get; set; }
 
         public int CurrentRoomId { get; set; } = -1;
+
+        public ClientRoom CurrentRoom { get; set; }
 
         public bool GameStart { get; set; }
         

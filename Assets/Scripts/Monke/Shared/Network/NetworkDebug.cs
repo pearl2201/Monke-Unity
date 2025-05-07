@@ -18,7 +18,7 @@ namespace MonkeNet.Shared
                         _receivedPacketsPerSecond = 0,
                         _sentPacketsPerSecond = 0;
 
-        public INetworkManager NetworkManager { get; set; } // FIXME: dependency injection? this looks out of place
+        [SerializeField] public INetworkManager networkManager; // FIXME: dependency injection? this looks out of place
 
         public void Start()
         {
@@ -27,10 +27,13 @@ namespace MonkeNet.Shared
 
         private void FixedUpdate()
         {
-            _sentPerSecond = NetworkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.SentBytes);
-            _recPerSecond = NetworkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.ReceivedBytes);
-            _receivedPacketsPerSecond = NetworkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.ReceivedPackets);
-            _sentPacketsPerSecond = NetworkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.SentPackets);
+            if (networkManager != null)
+            {
+                _sentPerSecond = networkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.SentBytes);
+                _recPerSecond = networkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.ReceivedBytes);
+                _receivedPacketsPerSecond = networkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.ReceivedPackets);
+                _sentPacketsPerSecond = networkManager.PopStatistic(INetworkManager.NetworkStatisticEnum.SentPackets);
+            }
         }
 
         public void DisplayDebugInformation(StringBuilder builder)

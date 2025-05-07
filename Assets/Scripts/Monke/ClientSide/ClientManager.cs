@@ -43,8 +43,8 @@ namespace MonkeNet.Client
         public PhysicsScene physicsScene;
         private bool _networkReady = false;
         public bool Connected { get; private set; }
+        public ClientNetworkClock Clock { get { return _clock; } }
 
-        
         public void Awake()
         {
             Instance = this;
@@ -68,7 +68,11 @@ namespace MonkeNet.Client
 
         public void Update()
         {
-            DisplayDebugInformation();
+            if (_networkReady)
+            {
+                DisplayDebugInformation();
+            }    
+
         }
 
         // TODO: I don't know if manually stepping physics inside _PhysicsProcess is a good idea,
@@ -94,7 +98,7 @@ namespace MonkeNet.Client
         public void Initialize(INetworkManager networkManager, string protocol, string address, int port)
         {
             _networkManager = networkManager;
-            _networkDebug.NetworkManager = _networkManager;
+            _networkDebug.networkManager = _networkManager;
 
             _clock.onLatencyCalculated += OnLatencyCalculated;
 
@@ -190,7 +194,7 @@ namespace MonkeNet.Client
                 builder.AppendLine($"Physics Tick {Time.fixedDeltaTime}hz");
                 _clock.DisplayDebugInformation(builder);
                 _networkDebug.DisplayDebugInformation(builder);
-              
+
 
                 _debugTextArea.text = builder.ToString();
             }

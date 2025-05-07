@@ -27,7 +27,7 @@ namespace MonkeNet.Client
             get { return _current; }
             set
             {
-                if (_current) { MonkeNetConfig.Instance.InputProducer = this; }
+                
                 _current = value;
             }
         }

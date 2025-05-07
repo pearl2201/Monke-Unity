@@ -23,6 +23,8 @@ namespace MonkeExample
         private float lastRefreshLobby;
 
         public bool refreshLobby;
+        [SerializeField]
+        private GameObject roomPrefab;
         void Start()
         {
             ClientManager.Instance.CommandReceived += OnMessage;
@@ -57,6 +59,11 @@ namespace MonkeExample
             else if (command is LobbyJoinRoomAccepted lobbyJoinRoomAccepted)
             {
                 CacheRuntime.Instance.CurrentRoomId = lobbyJoinRoomAccepted.Id;
+                var roomGo = Instantiate(roomListPrefab);
+                var clientRoom = roomGo.GetComponent<ClientRoom>();
+                CacheRuntime.Instance.CurrentRoom = clientRoom;
+                clientRoom.id = lobbyJoinRoomAccepted.Id;
+                clientRoom.Initialize(clientRoom.id, ClientManager.Instance.Clock);
                 OnRoomJoinAcepted();
             }
         }

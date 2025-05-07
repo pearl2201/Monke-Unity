@@ -1,5 +1,7 @@
 using MonkeNet.Client;
 using MonkeNet.Shared;
+using System;
+using System.Threading.Tasks;
 using UnityEditor.PackageManager;
 using UnityEngine;
 
@@ -24,15 +26,14 @@ public class MainScene : MonoBehaviour
 
     public void SendRequestCreateClient()
     {
-        ClientManager.Instance.MakeEntityRequest((byte)GameEntityManager.EntityType.Player);
+        //ClientManager.Instance.MakeEntityRequest((byte)GameEntityManager.EntityType.Player);
     }
 
-    public void CreateHost()
+    public async void CreateHost()
     {
-        isClient = false;
-        serverGroup.SetActive(true);
-        MonkeNetManager.Instance.CreateServer(9999);
-        natigationBar.SetActive(false);
+        CreateServer();
+        //await Task.Delay(TimeSpan.FromSeconds(1f));
+        OnConnectedToServer();
 
     }
 
@@ -45,4 +46,12 @@ public class MainScene : MonoBehaviour
         MonkeNetManager.Instance.CreateClient("localhost", 9999);
 
     }
+
+    public void CreateServer()
+    {
+        isClient = false;
+        serverGroup.SetActive(true);
+        MonkeNetManager.Instance.CreateServer(9999);
+        natigationBar.SetActive(false);
+    }    
 }

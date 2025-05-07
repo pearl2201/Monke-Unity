@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utils;
 
 namespace MonkeNet.Server
 {
@@ -18,7 +19,7 @@ namespace MonkeNet.Server
         public INetSerializable command;
     }
 
-    public partial class ServerManager : MonoBehaviour
+    public partial class ServerManager : MonoSingleton<ServerManager>
     {
         public EventHandler<int> onServerTick;
 
@@ -30,7 +31,7 @@ namespace MonkeNet.Server
 
         public EventHandler<CommandReceivedArgs> onCommandReceived;
 
-        public static ServerManager Instance { get; private set; }
+
 
         private INetworkManager _networkManager;
         [SerializeField] ServerNetworkClock _serverClock;
@@ -40,15 +41,7 @@ namespace MonkeNet.Server
 
         private bool _initialized;
         private List<ServerRoom> _rooms = new List<ServerRoom>();
-        public void Awake()
-        {
-            Instance = this;
 
-            // Set the _Process() tickrate to be the same as the _PhysicsProcess() to not waste resources, we shouldn't be using _Process() anywhere
-            // TODO: Update: Uncommenting this makes the network conditions shit. It seems like maybe it affects packet reading or something like that? Investigate further.
-            //Engine.MaxFps = Engine.PhysicsTicksPerSecond; // This should be used
-            Application.targetFrameRate = 60; // Should be enough...
-        }
 
         public void Start()
         {
@@ -158,7 +151,7 @@ namespace MonkeNet.Server
             {
                 SessionId = clientId.SessionId,
             });
-            onClientConnected.Invoke(this, clientId);
+            onClientConnected?.Invoke(this, clientId);
             Debug.Log($"Client {clientId} connected");
 
         }
