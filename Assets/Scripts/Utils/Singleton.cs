@@ -12,8 +12,13 @@ namespace Utils
             {
                 if (instance == null)
                 {
-                    var go = new GameObject();
-                    instance = go.AddComponent<T>();
+                    instance = FindObjectOfType<T>(true);
+                    if (instance == null)
+                    {
+                        var go = new GameObject();
+                        instance = go.AddComponent<T>();
+                    }
+
                 }
                 return instance;
             }
@@ -33,6 +38,7 @@ namespace Utils
             }
             else if (instance != this)
             {
+                Debug.Log("SIngleton destroy: " + gameObject.name);
                 Destroy(gameObject);
             }
             else

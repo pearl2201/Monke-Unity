@@ -13,7 +13,7 @@ namespace MonkeNet.Client
 
         private bool _networkReady = false;
 
-        private ClientRoom _room;
+        [SerializeField] protected ClientRoom _room;
 
         public ClientRoom Room { get { return _room; } }
 

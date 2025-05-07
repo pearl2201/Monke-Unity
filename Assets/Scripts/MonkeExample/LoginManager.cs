@@ -74,7 +74,7 @@ namespace MonkeExample
         {
             CacheRuntime.Instance.PlayerId = data.Id;
             CacheRuntime.Instance.LobbyInfoData = data.Data;
-            SceneManager.LoadScene("Lobby");
+            SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
             
         }
     }

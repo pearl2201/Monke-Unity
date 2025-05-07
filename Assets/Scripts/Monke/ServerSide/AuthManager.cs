@@ -1,11 +1,12 @@
 ﻿using LiteNetLib.Utils;
 using MonkeNet.NetworkMessages;
 using MonkeNet.Shared;
+using UnityEngine;
 using Utils;
 
 namespace MonkeNet.Server
 {
-    public class AuthManager : MonoSingleton<AuthManager>
+    public class AuthManager : MonoBehaviour
     {
         public delegate void AuthEvent(MonkeNetPeer peer);
 

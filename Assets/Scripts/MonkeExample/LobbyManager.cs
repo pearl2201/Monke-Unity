@@ -59,7 +59,7 @@ namespace MonkeExample
             else if (command is LobbyJoinRoomAccepted lobbyJoinRoomAccepted)
             {
                 CacheRuntime.Instance.CurrentRoomId = lobbyJoinRoomAccepted.Id;
-                var roomGo = Instantiate(roomListPrefab);
+                var roomGo = Instantiate(roomPrefab);
                 var clientRoom = roomGo.GetComponent<ClientRoom>();
                 CacheRuntime.Instance.CurrentRoom = clientRoom;
                 clientRoom.id = lobbyJoinRoomAccepted.Id;
@@ -85,7 +85,7 @@ namespace MonkeExample
 
         public void OnRoomJoinAcepted()
         {
-            SceneManager.LoadScene("Game");
+            SceneManager.LoadScene("Game", LoadSceneMode.Additive);
         }
 
         public void RefreshRooms(LobbyInfoData data)

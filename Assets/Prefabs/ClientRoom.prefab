@@ -67,6 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4be693605da24a9f9b1877fbb961fb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _room: {fileID: 665161203521927676}
   _entitySpawner: {fileID: 0}
   _entityManagerPrefab: {fileID: 3044501428444475172, guid: 3daadb1ef92b960408f1b3e60e14d69f, type: 3}
 --- !u!114 &7059922572070495158
@@ -81,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733b2c256c4514fa0b6b13232a1bdcf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _room: {fileID: 665161203521927676}
   _minBufferTime: 3
 --- !u!114 &7757380218782390283
 MonoBehaviour:
@@ -94,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aabb09142063a480492879eeb25bd540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _room: {fileID: 665161203521927676}
   inputProducerComponent: {fileID: 5110740743800782680}
 --- !u!114 &5110740743800782680
 MonoBehaviour:
