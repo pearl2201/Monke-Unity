@@ -1,7 +1,6 @@
 
 using LiteNetLib.Utils;
 using MonkeNet.NetworkMessages;
-using MonkeNet.Shared;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +8,7 @@ namespace MonkeNet.Server
 {
 
 
-    public partial class ServerInputReceiver : InternalServerComponent
+    public partial class ServerInputReceiver : InternalRoomComponent
     {
         private readonly Dictionary<int, Dictionary<IServerEntity, INetSerializable>> _pendingInputs = new Dictionary<int, Dictionary<IServerEntity, INetSerializable>>();
         private readonly Dictionary<IServerEntity, INetSerializable> _lastInputStored = new Dictionary<IServerEntity, INetSerializable>(); // Used for re-running old inputs in case no new inputs are received
@@ -38,13 +37,13 @@ namespace MonkeNet.Server
             }
         }
 
-        protected override void OnServerCommandReceived(object sender, CommandReceivedArgs args)
+        protected override void OnRoomCommandReceived(object sender, CommandReceivedArgs args)
         {
             if (args.command is not PackedClientInputMessage inputCommand)
                 return;
 
             // Find the ServerEntity target for this input command
-            foreach (var entity in MonkeNetConfig.Instance.EntitySpawner.Entities)
+            foreach (var entity in _room.EntityManager._entitySpawner.Entities)
             {
                 if (entity is IServerEntity serverEntity && args.clientId.SessionId == serverEntity.Authority)
                 {

@@ -63,7 +63,7 @@ namespace MonkeExample
                 var clientRoom = roomGo.GetComponent<ClientRoom>();
                 CacheRuntime.Instance.CurrentRoom = clientRoom;
                 clientRoom.id = lobbyJoinRoomAccepted.Id;
-                clientRoom.Initialize(clientRoom.id, ClientManager.Instance.Clock);
+                clientRoom.Initialize(clientRoom.id, lobbyJoinRoomAccepted.CurrentTick, ClientManager.Instance.Clock);
                 OnRoomJoinAcepted();
             }
         }

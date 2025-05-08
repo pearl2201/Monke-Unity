@@ -158,14 +158,18 @@ namespace MonkeNet.NetworkMessages
     public struct LobbyJoinRoomAccepted : INetSerializable
     {
         public int Id { get; set; }
+
+        public int CurrentTick { get; set; }
         public void Serialize(NetDataWriter writer)
         {
             writer.Put(Id);
+            writer.Put(CurrentTick);
         }
 
         public void Deserialize(NetDataReader reader)
         {
             Id = reader.GetInt();
+            CurrentTick = reader.GetInt();
         }
     }
     [NetPacket]
@@ -382,7 +386,7 @@ namespace MonkeNet.NetworkMessages
         }
     }
     [NetPacket]
-    public class ClientFillInProfileValues: INetSerializable
+    public class ClientFillInProfileValues : INetSerializable
     {
         public void Serialize(NetDataWriter writer)
         {
@@ -425,7 +429,7 @@ namespace MonkeNet.NetworkMessages
         }
     }
 
-  
+
 
 }
 
@@ -452,13 +456,15 @@ public static class CacheTypeNames
         var temp = AppDomain.CurrentDomain.GetAssemblies()
                 .Reverse()
                 .Select(assembly => assembly.GetType(name));
-        return
-
-                temp.FirstOrDefault(t => t != null)
-            // Safely delete the following part
-            // if you do not want fall back to first partial result
-            ??
-            temp
+        var ret =
+                temp.FirstOrDefault(t => t != null);
+        if (ret == null)
+        {
+            ret = temp
                 .FirstOrDefault(t => t.Name.Contains(name));
+        }
+
+        return ret;
+
     }
 }

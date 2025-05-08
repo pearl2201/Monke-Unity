@@ -105,7 +105,7 @@ public class ServerRoom : MonoBehaviour
             return;
         }
         _currentTick += 1;
-
+        Debug.Log("ServerRoomTick: " + _currentTick);
         onRoomTick?.Invoke(this, _currentTick);
         EntitiesCallProcessTick(_currentTick);
 
@@ -142,7 +142,8 @@ public class ServerRoom : MonoBehaviour
         scene = SceneManager.CreateScene("Room_" + name, csp);
         physicsScene = scene.GetPhysicsScene();
         SceneManager.MoveGameObjectToScene(gameObject, scene);
-        _entityManager._room = this;
+        _entityManager.Setup(this);
+        _inputReceiver.Setup(this);
         _initialized = true;
     }
 
@@ -150,7 +151,7 @@ public class ServerRoom : MonoBehaviour
     {
         Peers.Add(clientConnection);
         onClientConnected?.Invoke(this, clientConnection);
-        ServerManager.Instance.SendCommandToClient(clientConnection, MonkeNet.NetworkMessages.Area.Lobby, NetworkAreaId.Default, new LobbyJoinRoomAccepted { Id = this.id });
+        ServerManager.Instance.SendCommandToClient(clientConnection, MonkeNet.NetworkMessages.Area.Lobby, NetworkAreaId.Default, new LobbyJoinRoomAccepted { Id = this.id, CurrentTick = _currentTick });
     }
 
     public void RemovePlayerFromRoom(MonkeNetPeer clientConnection)

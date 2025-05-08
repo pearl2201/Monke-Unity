@@ -26,7 +26,7 @@ namespace MonkeNet.Server
             Instance = this;
             DontDestroyOnLoad(this);
             CreateRoom(0, "Main", 25);
-            CreateRoom(1, "Main 2", 15);
+            //CreateRoom(1, "Main 2", 15);
         }
         public override void Start()
         {

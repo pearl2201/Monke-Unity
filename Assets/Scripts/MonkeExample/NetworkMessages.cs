@@ -127,7 +127,7 @@ public static class NetDataExtensions
         writer.Put(e.Length);
         foreach (var elem in e)
         {
-            var typeName = elem.GetType().Name;
+            var typeName = elem.GetType().FullName;
             writer.Put(typeName);
             elem.Serialize(writer);
         }

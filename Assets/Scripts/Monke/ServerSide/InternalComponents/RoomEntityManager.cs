@@ -9,24 +9,21 @@ namespace MonkeNet.Server
     /// <summary>
     /// Handles creation/deletion of entities
     /// </summary>
-    public class RoomEntityManager : InternalServerComponent
+    public class RoomEntityManager : InternalRoomComponent
     {
-        [SerializeField] public ServerRoom _room;
+
         [SerializeField] public GameEntityManager _entitySpawner;
         private int _entityIdCount = 0;
         [SerializeField] GameEntityManager _entityManagerPrefab;
 
 
-        private void Awake()
-        {
-            _room = GetComponent<ServerRoom>();
-            _room.onClientConnected += OnRoomClientConnected;
-            _room.onClientDisconnected += OnRoomClientDisconnected;
 
-        }
 
         private void Start()
         {
+            _room.onClientConnected += OnRoomClientConnected;
+            _room.onClientDisconnected += OnRoomClientDisconnected;
+
             var temp = Instantiate(_entityManagerPrefab, _room.transform);
             _entitySpawner = temp.GetComponent<GameEntityManager>();
         }
@@ -41,7 +38,7 @@ namespace MonkeNet.Server
             SendCommandToRoom(_room, snapshotCommand);
         }
 
-        protected override void OnServerCommandReceived(object sender, CommandReceivedArgs receivedArgs)
+        protected override void OnRoomCommandReceived(object sender, CommandReceivedArgs receivedArgs)
         {
 
             if (receivedArgs.command is EntityRequestMessage entityRequest)

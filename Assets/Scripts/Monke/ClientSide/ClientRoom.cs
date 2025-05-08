@@ -63,6 +63,7 @@ namespace MonkeNet.Client
 
             // Advance Clock
             _currentTick++;
+            Debug.Log("ClientRoomTick: " + _currentTick);
             int currentTick = _currentTick;
             int currentRemoteTick = _clock.GetRoomRemoteTick(_currentTick);
             if (CacheRuntime.Instance.GameStart)
@@ -81,9 +82,9 @@ namespace MonkeNet.Client
         }
 
         // Calls OnProcessTick on all entities
-        private static void EntitiesCallProcessTick(int currentTick, int remoteTick, INetSerializable input)
+        private void EntitiesCallProcessTick(int currentTick, int remoteTick, INetSerializable input)
         {
-            foreach (var node in MonkeNetConfig.Instance.EntitySpawner.Entities)
+            foreach (var node in  entityManager.EntitySpawner.Entities)
             {
                 if (node is IClientEntity clientEntity)
                 {
@@ -92,10 +93,11 @@ namespace MonkeNet.Client
             }
         }
 
-        public void Initialize(int roomId, ClientNetworkClock clock)
+        public void Initialize(int roomId, int serverTick, ClientNetworkClock clock)
         {
             id = roomId;
             _clock = clock;
+            _currentTick = clock.GetRoomTickFromServerTick(serverTick);
             Debug.Log("Client Manager Initialized");
         }
 

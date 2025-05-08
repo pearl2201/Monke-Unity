@@ -12,14 +12,14 @@ namespace MonkeNet.Client
     /// <summary>
     /// Stores predicted game states for entities, upon receiving an snapshot, will check for deviation and perform rollback and re-simulation if needed.
     /// </summary>
-    public partial class PredictionManager : InternalClientComponent
+    public partial class PredictionManager : InternalRoomClientComponent
     {
         private readonly List<PredictedState> _predictedStates = new List<PredictedState>();
         private int _lastTickReceived = 0;
         private int _misspredictionsCount = 0;
         private int _missedLocalState = 0;
         private static object _lock = new object();
-        protected override void OnCommandReceived(Area area, int areaId, INetSerializable command)
+        protected override void OnRoomCommandReceived(object sender, INetSerializable command)
         {
             if (!NetworkReady)
                 return;
@@ -49,7 +49,7 @@ namespace MonkeNet.Client
             {
                 //TODO: use array of IPredictableEntity that updates each time a new entity is spawned/despawned
                 //TODO: store entity state inside entity itself instead of having everything here on PredictionManager
-                MonkeNetConfig.Instance.EntitySpawner.Entities.ForEach(entity =>
+                _room.entityManager.EntitySpawner.Entities.ForEach(entity =>
                 {
                     if (entity is IPredictableEntity predictableEntity)
                     {

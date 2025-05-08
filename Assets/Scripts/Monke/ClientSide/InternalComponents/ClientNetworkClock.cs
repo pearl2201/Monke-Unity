@@ -101,7 +101,12 @@ namespace MonkeNet.Client
         public int GetRoomRemoteTick(int roomTick)
         {
             return roomTick + _averageLatencyInTicks + _jitterInTicks + _fixedTickMargin;
-        }    
+        }
+
+        public int GetRoomTickFromServerTick(int serverTick)
+        {
+            return serverTick + _averageLatencyInTicks;
+        }
 
         private static int GetLocalTimeMs()
         {

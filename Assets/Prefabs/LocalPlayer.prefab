@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxDeviationAllowedSquared: 0.001
-  _playerMovement: {fileID: 0}
+  _playerMovement: {fileID: 7791101231187898525}
   entityId: 0
   entityType: 0
   authority: 0
